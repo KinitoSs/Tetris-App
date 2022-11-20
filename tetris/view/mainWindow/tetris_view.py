@@ -1,6 +1,7 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import QWidget, QLabel, QPushButton
-from base.IMainWindow import IMainWindow
+from ...base.IMainWindow import IMainWindow
+from ...UI import tetris_view_ui
 
 
 class TetrisView(QWidget):
@@ -13,7 +14,7 @@ class TetrisView(QWidget):
         super().__init__()
         self.__lvl = lvl
         self.__main_window = main_window
-        uic.loadUi("UI/tetris_view.ui", self)
+        uic.loadUi(tetris_view_ui, self)
         self.__setup_ui(label=self.label, to_menu_view_button=self.toMenuViewButton)
         self.__setup_labels()
         self.__setup_buttons()

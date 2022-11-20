@@ -1,5 +1,5 @@
 import random
-from model.figure import Figure
+from .figure import Figure
 
 
 S = [

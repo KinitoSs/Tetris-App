@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import QDialog, QPushButton, QLabel
 from PyQt5 import uic
+from ...UI import message_view_ui
 
 
 class MessageView(QDialog):
@@ -8,7 +9,7 @@ class MessageView(QDialog):
 
     def __init__(self, label_text=None):
         super().__init__()
-        uic.loadUi("UI/message_view.ui", self)
+        uic.loadUi(message_view_ui, self)
         self.__setup_ui(
             confirm_button=self.confirmButton, message_label=self.messageLabel
         )

@@ -1,7 +1,8 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QDialog
-from base.IMainWindow import IMainWindow
-from view.tetris_view import TetrisView
+from PyQt5.QtWidgets import QWidget, QPushButton
+from ...base.IMainWindow import IMainWindow
+from .tetris_view import TetrisView
+from ...UI import menu_view_ui
 
 
 class MenuView(QWidget):
@@ -12,7 +13,7 @@ class MenuView(QWidget):
     def __init__(self, main_window: IMainWindow = None) -> None:
         super().__init__()
         self.main_window = main_window
-        uic.loadUi("UI/menu_view.ui", self)
+        uic.loadUi(menu_view_ui, self)
         self.__setup_ui(
             to_tetris_1_view_button=self.toTetris1ViewButton,
             to_tetris_2_view_button=self.toTetris2ViewButton,

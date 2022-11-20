@@ -12,8 +12,7 @@ from PyQt5 import uic, QtGui, QtCore
 import random
 import sys
 import keyboard
-
-from base.IPlayWindow import IPlayWindow
+from ..base.IPlayWindow import IPlayWindow
 
 
 S = [
@@ -399,27 +398,29 @@ class TetrisModel(QWidget):
         self.closed.emit()
         QDialog.closeEvent(self, event)
 
+
 class Leaderboard(QDialog):
-    closed = pyqtSignal()   #signal attribute for parent window
+    closed = pyqtSignal()  # signal attribute for parent window
+
     def __init__(self, score, level):
         super(Leaderboard, self).__init__()
         uic.loadUi("UI/Leaderboard.ui", self)
-        #------------
+        # ------------
         self.buttonClose = self.findChild(QPushButton, "CloseButton")
         self.buttonClose.clicked.connect(self.CloseWindow)
         self.scoreText = self.findChild(QLabel, "ScoreText")
         self.levelText = self.findChild(QLabel, "LevelText")
-        #------------
+        # ------------
         self.scoreText.setText("Score : " + str(score))
         self.levelText.setText("Level : " + str(level))
 
-    #exit button is pressed
+    # exit button is pressed
     def CloseWindow(self):
-        self.close()       #exit leaderboard window
+        self.close()  # exit leaderboard window
         QtCore.QCoreApplication.quit()
         status = QtCore.QProcess.startDetached(sys.executable, sys.argv)
 
-    #emit signal on window closure
+    # emit signal on window closure
     def closeEvent(self, event):
         self.closed.emit()
         QDialog.closeEvent(self, event)

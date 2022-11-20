@@ -4,14 +4,12 @@ from PyQt5.QtWidgets import (
     QWidget,
     QMenu,
     QAction,
-    QShortcut,
 )
-from PyQt5.QtGui import QKeySequence
-from base.IMainWindow import IMainWindow
-from view.menu_view import MenuView
+from ...base.IMainWindow import IMainWindow
+from .menu_view import MenuView
 from PyQt5 import uic
-
-from view.message_view import MessageView
+from .message_view import MessageView
+from ...UI import main_window_ui
 
 
 class MainWindow(IMainWindow):
@@ -24,7 +22,7 @@ class MainWindow(IMainWindow):
     def __init__(self) -> None:
         super().__init__()
 
-        uic.loadUi("UI/main_window.ui", self)
+        uic.loadUi(main_window_ui, self)
         self.__setup_ui(
             menu_file=self.menuFile,
             menu_help=self.menuHelp,

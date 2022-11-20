@@ -1,10 +1,20 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
-    name="Tetris App",
-    version="1.0",
-    description="PyQt5 Tetris App",
-    author="Nikita Arharov",
-    author_email="arharov.n@edu.narfu.ru",
-    url="https://www.python.org/sigs/distutils-sig/",
+    name="tetris-app",
+    version="1.0.1",
+    license="MIT",
+    author="kinburrr",
+    author_email="kinburrr@gmail.com",
+    packages=find_packages(),
+    entry_points={
+        "console_scripts": [
+            "kintetris=tetris:__main__",
+        ],
+    },
+    setup_requires=[
+        "PyQt5~=5.15.7",
+        "keyboard~=0.13.5",
+    ],
+    include_package_data=True,
 )
