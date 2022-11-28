@@ -36,7 +36,7 @@
     <property name="title">
      <string>Помощь</string>
     </property>
-    <addaction name="menuAboutProgrammAction"/>
+    <addaction name="menuAboutProgramAction"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuHelp"/>
@@ -47,7 +47,7 @@
     <string>Выход</string>
    </property>
   </action>
-  <action name="menuAboutProgrammAction">
+  <action name="menuAboutProgramAction">
    <property name="text">
     <string>О программе</string>
    </property>

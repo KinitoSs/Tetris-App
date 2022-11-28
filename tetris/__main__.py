@@ -12,3 +12,4 @@ sys.path.append("./tetris")
 
 main_window = MainWindow()
 app.exec()
+sys.exit()

@@ -195,8 +195,6 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../assets/resources.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
