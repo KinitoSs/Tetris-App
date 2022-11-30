@@ -1,7 +1,6 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QPushButton
-from ...base.IMainWindow import IMainWindow
-from .tetris_view import TetrisView
+from PyQt5.QtWidgets import QWidget
+
 from ...UI import menu_view_ui
 from ...viewModel.main_view_model import app_model
 
@@ -15,10 +14,11 @@ class MenuView(QWidget):
         self.__setup_buttons()
 
     def __setup_buttons(self):
-        self.toTetris1ViewButton.clicked.connect(lambda: self.__on_level_select(1))
-        self.toTetris2ViewButton.clicked.connect(lambda: self.__on_level_select(2))
-        self.toTetris3ViewButton.clicked.connect(lambda: self.__on_level_select(3))
+        self.toTetris1ViewButton.clicked.connect(lambda: app_model.set_complexity(1))
+        self.toTetris1ViewButton.clicked.connect(lambda: app_model.set_state("game"))
 
-    def __on_level_select(self, lvl: int):
-        app_model.complexity = lvl
-        app_model.state = "game"
+        self.toTetris2ViewButton.clicked.connect(lambda: app_model.set_complexity(2))
+        self.toTetris2ViewButton.clicked.connect(lambda: app_model.set_state("game"))
+
+        self.toTetris3ViewButton.clicked.connect(lambda: app_model.set_complexity(3))
+        self.toTetris3ViewButton.clicked.connect(lambda: app_model.set_state("game"))

@@ -1,5 +1,6 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget, QLabel, QPushButton, QFrame
+from PyQt5.QtWidgets import QWidget
+
 from ...UI import tetris_view_ui
 from ...viewModel.main_view_model import app_model
 
@@ -15,7 +16,4 @@ class TetrisView(QWidget):
         self.__setup_buttons()
 
     def __setup_buttons(self) -> None:
-        self.toMenuViewButton.clicked.connect(lambda: self.__on_menu_select())
-
-    def __on_menu_select(self):
-        app_model.state = "menu"
+        self.toMenuViewButton.clicked.connect(lambda: app_model.set_state("menu"))
