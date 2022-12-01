@@ -1,5 +1,5 @@
 from PyQt5 import uic
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget, QLabel
 
 from ...UI import menu_view_ui
 from ...viewModel.main_view_model import app_model
@@ -10,6 +10,7 @@ class MenuView(QWidget):
         super().__init__()
         self.main_window = main_window
         self.main_window.setCentralWidget(self)
+        self.label = QLabel("Hello world")
         uic.loadUi(menu_view_ui, self)
         self.__setup_buttons()
 

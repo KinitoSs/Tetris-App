@@ -2,7 +2,7 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (
     QDesktopWidget,
     QWidget,
-    QMainWindow,
+    QMainWindow, QAction,
 )
 
 from .menu_view import MenuView
@@ -21,7 +21,7 @@ class MainWindow(QMainWindow):
         app_model.on_change("state", lambda state: self.__check_state())
         app_model.on_change("command", lambda command: self.__check_command())
 
-        uic.loadUi(main_window_ui, self)
+        self.__load_ui()
 
         self.__setup_menu_actions()
 
@@ -30,6 +30,11 @@ class MainWindow(QMainWindow):
 
         self.__center()
         self.show()
+
+    def __load_ui(self):
+        uic.loadUi(main_window_ui, self)
+        self.menuExitAction: QAction
+        self.menuAboutProgramAction: QAction
 
     def __setup_menu_actions(self):
         self.menuExitAction.triggered.connect(lambda: app_model.set_command("exit"))
@@ -52,6 +57,7 @@ class MainWindow(QMainWindow):
 
     def __check_command(self):
         if app_model.command == "exit":
+            # self.close()
             ExitCommand(self).execute()
 
         elif app_model.command == "about_programm":
