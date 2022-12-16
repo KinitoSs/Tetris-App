@@ -2,7 +2,8 @@ from PyQt5 import uic
 from PyQt5.QtWidgets import (
     QDesktopWidget,
     QWidget,
-    QMainWindow, QAction,
+    QMainWindow,
+    QAction,
 )
 
 from .menu_view import MenuView
@@ -52,6 +53,7 @@ class MainWindow(QMainWindow):
     def __check_state(self):
         if app_model.state == "menu":
             self.__current_view = MenuView(self)
+            self.statusBar().showMessage("")
         elif app_model.state == "game":
             self.__current_view = TetrisView(self)
 
