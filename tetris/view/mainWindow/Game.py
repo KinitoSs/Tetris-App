@@ -11,9 +11,9 @@ class Game(QObject):
     score_updated = pyqtSignal(int)
     level_updated = pyqtSignal(int)
 
-    points_for_single_block = 1
-    points_for_row_cleared = 5
-    points_for_level_up = 20  # после получения n очков ** уровня, уровень повышается
+    points_for_single_block = 20
+    points_for_row_cleared = 100
+    points_for_level_up = 400  # после получения n очков ** уровня, уровень повышается
     base_speed = 320  # интервал обновления для уровня 1
     speed_decrement = 20  # декремент таймера для каждого уровня
     high_speed = 50  # интервал таймера при нажатии пробела
@@ -44,7 +44,8 @@ class Game(QObject):
             self.start()
 
     def __add_points(self, added):
-        """Обновляет очки и скорость. Количество добавленных очков зависит от уровня"""
+        """Обновляет очки и скорость.
+        Количество добавленных очков зависит от уровня"""
         added = added * self.__level
         self.__score = self.__score + added
         self.score_updated.emit(self.__score)
@@ -77,9 +78,8 @@ class Game(QObject):
                     self.__game_over = True
                     self.stop()
                     self.__change_status_message("Game over!")
-                    ShowMessageCommand(f"Вы проиграли!\nСчёт: {self.__score}").execute()
-                    SaveScoreCommand(self.__score).execute()
-                    app_model.state = "menu"
+                    SaveScoreCommand(self.__score, app_model.complexity).execute()
+                    app_model.state = "results"
             self.board_updated.emit()
 
     def get_status(self) -> str:
@@ -123,5 +123,6 @@ class Game(QObject):
         self.level_updated.emit(self.__level)
         self.__change_status_message("")
         self.__board.remove_all()
+        self.__board.insert_obstacle()
         self.__board.try_insert_random_block()
         self.board_updated.emit()

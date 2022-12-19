@@ -3,39 +3,72 @@ import json
 
 class ScoreHandler:
     def __init__(self, filename):
-        self.filename = filename
-        self.last_score = 0
-        self.record_score = 0
-        self.load_scores()
+        self.__filename = filename
+        self.__last_score = 0
+        self.__record_score = 0
+        self.__complexity = 0
+        # self.load_scores()
 
-    def load_scores(self):
+    def load_scores(self, complexity):
+        self.__complexity = complexity
         try:
-            with open(self.filename, "r") as f:
+            with open(self.__filename, "r") as f:
                 scores = json.load(f)
-                self.last_score = scores["last_score"]
-                self.record_score = scores["record_score"]
+                self.__last_score = scores[str(self.__complexity)]["last_score"]
+                self.__record_score = scores[str(self.__complexity)]["record_score"]
         except (IOError, KeyError, json.decoder.JSONDecodeError):
-            self.last_score = 0
-            self.record_score = 0
+            self.__last_score = 0
+            self.__record_score = 0
+            self.__complexity = 0
 
-    def update_score(self, score):
-        if score > self.record_score:
-            self.record_score = score
+    def update_score(self, score, complexity):
+        self.__complexity = complexity
+        self.load_scores(self.__complexity)
 
-        self.last_score = score
+        if score > self.__record_score:
+            self.__record_score = score
+
+        self.__last_score = score
         self.__save_scores()
 
     def __save_scores(self):
-        with open(self.filename, "w") as f:
-            json.dump(
-                {"last_score": self.last_score, "record_score": self.record_score}, f
-            )
+        with open(self.__filename, "r") as f:
+            data = json.loads(f.read())
 
-    def get_last_score(self):
-        return self.last_score
+        data.update(
+            {
+                str(self.__complexity): {
+                    "last_score": self.__last_score,
+                    "record_score": self.__record_score,
+                }
+            }
+        )
+        # data[str(self.__complexity)]["last_score"] = self.__last_score
+        # data[str(self.__complexity)]["record_score"] = self.__record_score
 
-    def get_record_score(self):
-        return self.record_score
+        with open(self.__filename, "w") as f:
+            f.write(json.dumps(data, sort_keys=True, indent=4, separators=(",", ": ")))
+
+        # with open(self.__filename, "w") as f:
+        #     json.dump(
+        #         # {"last_score": self.__last_score, "record_score": self.__record_score}, f
+        #         {
+        #             str(self.__complexity): {
+        #                 "last_score": self.__last_score,
+        #                 "record_score": self.__record_score,
+        #             }
+        #         },
+        #
+        #         f,
+        #     )
+
+    def get_last_score(self, complexity) -> int:
+        self.load_scores(complexity)
+        return self.__last_score
+
+    def get_record_score(self, complexity) -> int:
+        self.load_scores(complexity)
+        return self.__record_score
 
 
 score_handler = ScoreHandler("scores.json")

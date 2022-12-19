@@ -14,7 +14,6 @@ setup(
     },
     setup_requires=[
         "PyQt5~=5.15.7",
-        "keyboard~=0.13.5",
     ],
     include_package_data=True,
 )

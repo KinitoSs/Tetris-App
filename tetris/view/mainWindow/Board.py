@@ -1,5 +1,5 @@
 from ...model.bricks import brick
-from ...utils.commands import GetRandomBlockCommand
+from ...utils.commands import GetRandomBlockCommand, GetSquareBlockCommand
 
 
 class Board:
@@ -24,8 +24,23 @@ class Board:
         self.new_block_x = self.width / 2 - 1
         self.new_block_y = 0
 
+        self.obstacle_x = self.width / 2 - 1
+        self.obstacle_y = self.height / 2 - 1
+
         self.data = [[0] * self.width for _ in range(self.height)]
+        # self.data_obstacles = [[0] * self.width for _ in range(self.height)]
+        # self.data_obstacles[int(self.height / 2 - 1)][int(self.width / 2 - 1)] = 1
+        # print(self.data_obstacles)
         self.current_block = None
+
+    # def insert_obstacle(self):
+    #     self.obstacle = GetSquareBlockCommand(
+    #         self.obstacle_x, self.obstacle_y
+    #     ).execute()
+    #     for pt in self.obstacle.get_coords():
+    #         self.data[pt[1]][pt[0]] = 1
+    #     print("Inserted ", self.obstacle.get_name())
+    #     return True
 
     def try_insert_random_block(self):
         self.current_block = GetRandomBlockCommand(
@@ -33,7 +48,7 @@ class Board:
         ).execute()
 
         for pt in self.current_block.get_coords():
-            if pt[0] >= 0 and pt[1] >= 0:  # blocks may be created at negative pos
+            if pt[0] >= 0 and pt[1] >= 0:  # блоки могут быть созданы в отрицательном положении
                 if self.data[pt[1]][pt[0]] != 0:
                     return False
         print("Inserted ", self.current_block.get_name())
@@ -41,6 +56,12 @@ class Board:
 
     def can_move_current_block(self, x_offset, y_offset):
         coords = self.current_block.peek_coords(x_offset, y_offset)
+        # print(coords)
+        # print(self.obstacle_x, self.obstacle_y)
+        # print(self.data)
+        # for i, j in coords:
+        #     print(i, j)
+        #     print(self.data[j][i])
         return all(
             0 <= x < self.width and 0 <= y < self.height for x, y in coords
         ) and all(self.data[j][i] == 0 for i, j in coords)
@@ -79,3 +100,4 @@ class Board:
     def __clear_row(self, row_index):
         for i in range(0, self.width):
             self.data[row_index][i] = 0
+

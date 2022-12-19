@@ -14,9 +14,9 @@ class MenuView(QWidget):
         uic.loadUi(menu_view_ui, self)
         self.__setup_buttons()
 
-        self.label: QLabel
-        self.label.setText(
-            f"Тетрис!\nРекорд: {GetRecordCommand().execute()}\nПоследний счёт: {GetLastScoreCommand().execute()}"
+        self.recordsLabel: QLabel
+        self.recordsLabel.setText(
+            f"1 уровень\nрекорд: {GetRecordCommand(1).execute()}, последний счёт: {GetLastScoreCommand(1).execute()}\n\n2 уровень\nрекорд: {GetRecordCommand(2).execute()}, последний счёт: {GetLastScoreCommand(2).execute()}\n\n3 уровень\nрекорд: {GetRecordCommand(3).execute()}, последний счёт: {GetLastScoreCommand(3).execute()}"
         )
 
     def __setup_buttons(self):

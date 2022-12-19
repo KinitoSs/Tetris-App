@@ -30,3 +30,7 @@ class BlockFactory:
             return SBlock2(x, y)
         else:
             raise RuntimeError("Wrong block number")
+
+    @staticmethod
+    def get_brick_block(x, y):
+        return SquareBlock(x, y)

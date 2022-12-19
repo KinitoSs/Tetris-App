@@ -32,18 +32,34 @@ class GetRandomBlockCommand(ICommand):
 
 
 class SaveScoreCommand(ICommand):
-    def __init__(self, score):
-        self.__score = score
+    def __init__(self, score, complexity):
+        self.__score: int = score
+        self.__complexity: int = complexity
 
     def execute(self) -> None:
-        score_handler.update_score(self.__score)
+        score_handler.update_score(self.__score, self.__complexity)
 
 
 class GetRecordCommand(ICommand):
+    def __init__(self, complexity):
+        self.__complexity = complexity
+
     def execute(self) -> int:
-        return score_handler.get_record_score()
+        return score_handler.get_record_score(self.__complexity)
 
 
 class GetLastScoreCommand(ICommand):
-    def execute(self) -> None:
-        return score_handler.get_last_score()
+    def __init__(self, complexity):
+        self.__complexity = complexity
+
+    def execute(self) -> int:
+        return score_handler.get_last_score(self.__complexity)
+
+
+class GetSquareBlockCommand(ICommand):
+    def __init__(self, x, y):
+        self.__x = x
+        self.__y = y
+
+    def execute(self) -> brick.Brick:
+        return block_factory.BlockFactory.get_brick_block(self.__x, self.__y)

@@ -79,7 +79,7 @@ class TetrisView(QWidget):
                         self.BrickSize,
                         self.BrickSize,
                         QPen(Qt.lightGray),
-                        QBrush(Qt.gray),
+                        QBrush(Qt.green),
                     )
 
     def update_status(self):

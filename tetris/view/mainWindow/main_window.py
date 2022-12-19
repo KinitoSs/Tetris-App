@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (
 
 from .menu_view import MenuView
 from .tetris_view import TetrisView
+from .results_view import ResultsView
 from ...UI import main_window_ui
 from ...utils.commands import ExitCommand, ShowMessageCommand
 from ...viewModel.main_view_model import app_model
@@ -56,6 +57,8 @@ class MainWindow(QMainWindow):
             self.statusBar().showMessage("")
         elif app_model.state == "game":
             self.__current_view = TetrisView(self)
+        elif app_model.state == "results":
+            self.__current_view = ResultsView(self)
 
     def __check_command(self):
         if app_model.command == "exit":
