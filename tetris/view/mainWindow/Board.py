@@ -1,5 +1,6 @@
 from ...model.bricks import brick
 from ...utils.commands import GetRandomBlockCommand, GetSquareBlockCommand
+from ...viewModel.main_view_model import app_model
 
 
 class Board:
@@ -24,23 +25,45 @@ class Board:
         self.new_block_x = self.width / 2 - 1
         self.new_block_y = 0
 
-        self.obstacle_x = self.width / 2 - 1
-        self.obstacle_y = self.height / 2 - 1
 
         self.data = [[0] * self.width for _ in range(self.height)]
-        # self.data_obstacles = [[0] * self.width for _ in range(self.height)]
-        # self.data_obstacles[int(self.height / 2 - 1)][int(self.width / 2 - 1)] = 1
-        # print(self.data_obstacles)
+        self.data_obstacles = [[0] * self.width for _ in range(self.height)]
         self.current_block = None
 
-    # def insert_obstacle(self):
-    #     self.obstacle = GetSquareBlockCommand(
-    #         self.obstacle_x, self.obstacle_y
-    #     ).execute()
-    #     for pt in self.obstacle.get_coords():
-    #         self.data[pt[1]][pt[0]] = 1
-    #     print("Inserted ", self.obstacle.get_name())
-    #     return True
+    def insert_obstacles(self):
+        self.obstacles = []
+        if app_model.complexity == 1:
+            pass
+        elif app_model.complexity == 2:
+            self.insert_obstacle(0, int(self.height / 2 - 1))
+        elif app_model.complexity == 3:
+            self.insert_obstacle(0, int(self.height / 2 - 1))
+            self.insert_obstacle(self.width / 1.3-1, self.height / 2.7 - 1)
+
+    def insert_obstacle(self, obstacle_x, obstacle_y):
+        self.obstacles.append(GetSquareBlockCommand(
+            obstacle_x, obstacle_y
+        ).execute())
+
+        for obstacle in self.obstacles:
+            for pt in obstacle.get_coords():
+                self.data_obstacles[pt[1]][pt[0]] = 1
+
+            print("Inserted ", obstacle.get_name())
+        return True
+
+    def is_current_block_on_obstacle(self, x_offset, y_offset):
+        coords = self.current_block.peek_coords(x_offset, y_offset)
+        for x, y in coords:
+            try:
+                if self.data_obstacles[y][x] == 1:
+                    return True
+            except IndexError:
+                pass
+        # for x, y, in coords:
+        #     if self.data_obstacles[y][x] == 1:
+        #         print('Пересечение')
+        # return all(self.data_obstacles[y][x] == 1 for x, y in coords)
 
     def try_insert_random_block(self):
         self.current_block = GetRandomBlockCommand(
@@ -51,17 +74,12 @@ class Board:
             if pt[0] >= 0 and pt[1] >= 0:  # блоки могут быть созданы в отрицательном положении
                 if self.data[pt[1]][pt[0]] != 0:
                     return False
+
         print("Inserted ", self.current_block.get_name())
         return True
 
     def can_move_current_block(self, x_offset, y_offset):
         coords = self.current_block.peek_coords(x_offset, y_offset)
-        # print(coords)
-        # print(self.obstacle_x, self.obstacle_y)
-        # print(self.data)
-        # for i, j in coords:
-        #     print(i, j)
-        #     print(self.data[j][i])
         return all(
             0 <= x < self.width and 0 <= y < self.height for x, y in coords
         ) and all(self.data[j][i] == 0 for i, j in coords)

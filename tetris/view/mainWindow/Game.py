@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QBasicTimer, pyqtSignal, QObject
 
 from tetris.utils.commands import ShowMessageCommand, SaveScoreCommand
+from tetris.view.mainWindow.Board import Board
 from tetris.viewModel.main_view_model import app_model
 
 
@@ -18,7 +19,7 @@ class Game(QObject):
     speed_decrement = 20  # декремент таймера для каждого уровня
     high_speed = 50  # интервал таймера при нажатии пробела
 
-    def __init__(self, board):
+    def __init__(self, board: Board):
         super().__init__()
         self.__board = board
         self.__timer = QBasicTimer()
@@ -65,9 +66,19 @@ class Game(QObject):
         self.__status = msg
         self.status_updated.emit(msg)
 
+    def __game_stop(self):
+        self.__game_over = True
+        self.stop()
+        self.__change_status_message("Game over!")
+        SaveScoreCommand(self.__score, app_model.complexity).execute()
+        app_model.state = "results"
+
+
     def timerEvent(self, event):
         if event.timerId() == self.__timer.timerId():
-            if self.__board.can_move_current_block(0, 1):
+            if self.__board.is_current_block_on_obstacle(0, 1):
+                self.__game_stop()
+            elif self.__board.can_move_current_block(0, 1):
                 self.__board.current_block.move_down()
             else:
                 self.__board.permanently_insert_current_block()
@@ -75,11 +86,7 @@ class Game(QObject):
                 rows_removed = self.__board.remove_full_rows()
                 self.__add_points(self.points_for_row_cleared * rows_removed)
                 if not self.__board.try_insert_random_block():
-                    self.__game_over = True
-                    self.stop()
-                    self.__change_status_message("Game over!")
-                    SaveScoreCommand(self.__score, app_model.complexity).execute()
-                    app_model.state = "results"
+                    self.__game_stop()
             self.board_updated.emit()
 
     def get_status(self) -> str:
@@ -123,6 +130,6 @@ class Game(QObject):
         self.level_updated.emit(self.__level)
         self.__change_status_message("")
         self.__board.remove_all()
-        self.__board.insert_obstacle()
+        self.__board.insert_obstacles()
         self.__board.try_insert_random_block()
         self.board_updated.emit()

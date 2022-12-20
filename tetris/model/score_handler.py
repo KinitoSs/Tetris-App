@@ -19,7 +19,6 @@ class ScoreHandler:
         except (IOError, KeyError, json.decoder.JSONDecodeError):
             self.__last_score = 0
             self.__record_score = 0
-            self.__complexity = 0
 
     def update_score(self, score, complexity):
         self.__complexity = complexity

@@ -1,10 +1,14 @@
 {
     "1": {
-        "last_score": 120,
+        "last_score": 160,
         "record_score": 3660
     },
     "2": {
-        "last_score": 12,
-        "record_score": 12
+        "last_score": 20,
+        "record_score": 20
+    },
+    "3": {
+        "last_score": 20,
+        "record_score": 60
     }
 }
