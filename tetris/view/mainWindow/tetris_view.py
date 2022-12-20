@@ -73,12 +73,12 @@ class TetrisView(QWidget):
         for obstacle in self.__board.obstacles:
             for point in obstacle.get_coords():
                 self.__scene.addRect(
-                        point[0] * self.BrickSize,
-                        point[1] * self.BrickSize,
-                        self.BrickSize,
-                        self.BrickSize,
-                        QPen(Qt.lightGray),
-                        QBrush(Qt.black),
+                    point[0] * self.BrickSize,
+                    point[1] * self.BrickSize,
+                    self.BrickSize,
+                    self.BrickSize,
+                    QPen(Qt.lightGray),
+                    QBrush(Qt.black),
                 )
 
         for i in range(0, self.__board.width):

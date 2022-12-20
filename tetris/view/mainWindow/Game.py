@@ -73,7 +73,6 @@ class Game(QObject):
         SaveScoreCommand(self.__score, app_model.complexity).execute()
         app_model.state = "results"
 
-
     def timerEvent(self, event):
         if event.timerId() == self.__timer.timerId():
             if self.__board.is_current_block_on_obstacle(0, 1):

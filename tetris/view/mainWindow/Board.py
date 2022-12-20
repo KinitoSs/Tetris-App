@@ -25,7 +25,6 @@ class Board:
         self.new_block_x = self.width / 2 - 1
         self.new_block_y = 0
 
-
         self.data = [[0] * self.width for _ in range(self.height)]
         self.data_obstacles = [[0] * self.width for _ in range(self.height)]
         self.current_block = None
@@ -38,12 +37,10 @@ class Board:
             self.insert_obstacle(0, int(self.height / 2 - 1))
         elif app_model.complexity == 3:
             self.insert_obstacle(0, int(self.height / 2 - 1))
-            self.insert_obstacle(self.width / 1.3-1, self.height / 2.7 - 1)
+            self.insert_obstacle(self.width / 1.3 - 1, self.height / 2.7 - 1)
 
     def insert_obstacle(self, obstacle_x, obstacle_y):
-        self.obstacles.append(GetSquareBlockCommand(
-            obstacle_x, obstacle_y
-        ).execute())
+        self.obstacles.append(GetSquareBlockCommand(obstacle_x, obstacle_y).execute())
 
         for obstacle in self.obstacles:
             for pt in obstacle.get_coords():
@@ -71,7 +68,9 @@ class Board:
         ).execute()
 
         for pt in self.current_block.get_coords():
-            if pt[0] >= 0 and pt[1] >= 0:  # блоки могут быть созданы в отрицательном положении
+            if (
+                pt[0] >= 0 and pt[1] >= 0
+            ):  # блоки могут быть созданы в отрицательном положении
                 if self.data[pt[1]][pt[0]] != 0:
                     return False
 
@@ -118,4 +117,3 @@ class Board:
     def __clear_row(self, row_index):
         for i in range(0, self.width):
             self.data[row_index][i] = 0
-

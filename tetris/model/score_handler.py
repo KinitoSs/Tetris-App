@@ -30,9 +30,22 @@ class ScoreHandler:
         self.__last_score = score
         self.__save_scores()
 
+    def __create_json_file(self):
+        data = {}
+        for lvl in range(1, self.__complexity + 1):
+            data[str(lvl)] = {"last_score": 0, "record_score": 0}
+
+        with open(self.__filename, "w") as f:
+            json.dump(data, f)
+
     def __save_scores(self):
-        with open(self.__filename, "r") as f:
-            data = json.loads(f.read())
+        try:
+            with open(self.__filename, "r") as f:
+                data = json.loads(f.read())
+        except FileNotFoundError:
+            self.__create_json_file()
+            with open(self.__filename, "r") as f:
+                data = json.loads(f.read())
 
         data.update(
             {
