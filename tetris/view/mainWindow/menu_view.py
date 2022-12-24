@@ -7,7 +7,23 @@ from ...viewModel.main_view_model import app_model
 
 
 class MenuView(QWidget):
+    """
+    Класс виджета, представляющий вид меню игры "Тетрис".
+    
+    Attributes:
+        main_window (QMainWindow): Главное окно приложения.
+        recordsLabel (QLabel): Label, отображающий рекорды и последние результаты для каждого уровня.
+        toTetris1ViewButton (QPushButton): Кнопка, ведущая на первый уровень игры.
+        toTetris2ViewButton (QPushButton): Кнопка, ведущая на второй уровень игры.
+        toTetris3ViewButton (QPushButton): Кнопка, ведущая на третий уровень игры.
+    """
     def __init__(self, main_window) -> None:
+        """
+        Инициализирует виджет представления меню.
+        
+        Args:
+            main_window (QMainWindow): Главное окно приложения.
+        """
         super().__init__()
         self.main_window = main_window
         self.main_window.setCentralWidget(self)
@@ -20,6 +36,9 @@ class MenuView(QWidget):
         )
 
     def __setup_buttons(self):
+        """
+        Устанавливает кнопки представления меню.
+        """
         self.toTetris1ViewButton: QPushButton
         self.toTetris1ViewButton.clicked.connect(lambda: app_model.set_complexity(1))
         self.toTetris1ViewButton.clicked.connect(lambda: app_model.set_state("game"))

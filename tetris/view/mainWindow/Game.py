@@ -6,6 +6,10 @@ from tetris.viewModel.main_view_model import app_model
 
 
 class Game(QObject):
+    """
+    QObject, представляющий логику игры.
+    Выдает сигналы при обновлении поля, счета, уровня или статуса.
+    """
     # must be static
     board_updated = pyqtSignal()
     status_updated = pyqtSignal(str)
@@ -59,21 +63,49 @@ class Game(QObject):
             self.level_updated.emit(self.__level)
             self.__change_speed(self.__speed - self.speed_decrement)
 
-    def __number_of_points_to_change_level(self):
+    def __number_of_points_to_change_level(self) -> int:
+        """
+        Расчёт количества очков, необходимого для перехода на следующий уровень.
+        
+        Returns:
+            Количество очков, необходимое для перехода на следующий уровень.
+        """
         return self.points_for_level_up**self.__level
 
-    def __change_status_message(self, msg):
+    def __change_status_message(self, msg) -> None:
+        """
+        Обновление сообщения о статусе игры.
+
+        Parameters:
+            msg (str): Новое сообщение о статусе игры для установки.
+        """
         self.__status = msg
         self.status_updated.emit(msg)
 
-    def __game_stop(self):
+    def __game_stop(self) -> None:
+        """
+        Останавливает игру и меняет __game_over на True.
+        
+        Этот метод также останавливает таймер и меняет статус на "Game over!". 
+        Он также сохраняет текущий счет в базе данных и обновляет состояние модели приложения.
+        """
         self.__game_over = True
         self.stop()
         self.__change_status_message("Game over!")
         SaveScoreCommand(self.__score, app_model.complexity).execute()
         app_model.state = "results"
 
-    def timerEvent(self, event):
+    def timerEvent(self, event) -> None:
+        """
+        Обрабатывает события таймера. Этот метод вызывается фреймворком QT через регулярные промежутки времени
+        когда таймер активен.
+
+        Args:
+            event: Событие таймера.
+
+        Returns:
+            None.
+        """
         if event.timerId() == self.__timer.timerId():
             if self.__board.is_current_block_on_obstacle(0, 1):
                 self.__game_stop()
@@ -89,12 +121,30 @@ class Game(QObject):
             self.board_updated.emit()
 
     def get_status(self) -> str:
+        """
+        Возвращает сообщение о текущем состоянии игры.
+
+        Returns:
+            Сообщение о текущем состоянии игры.
+        """
         return self.__status
 
     def get_score(self) -> int:
+        """
+        Возвращает текущий счет игры.
+
+        Returns:
+            Текущий счет игры.
+        """
         return self.__score
 
     def get_level(self) -> int:
+        """
+        Возвращает текущий уровень игры.
+
+        Returns:
+            Текущий уровень игры.
+        """
         return self.__level
 
     def set_high_speed(self):
@@ -107,7 +157,7 @@ class Game(QObject):
         if self.__highSpeedMode:
             self.__change_speed(self.__speedBackup)
             self.__highSpeedMode = False
-
+    
     def toggle_pause(self):
         if not self.__game_over:
             if self.__timer.isActive():

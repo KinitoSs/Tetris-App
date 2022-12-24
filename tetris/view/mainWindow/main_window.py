@@ -15,6 +15,22 @@ from ...viewModel.main_view_model import app_model
 
 
 class MainWindow(QMainWindow):
+    """
+    Класс MainWindow представляет главное окно приложения.
+
+    Он является подклассом QMainWindow и отвечает за обработку различных представлений и состояний приложения, а также за обработку действий меню и других команд.
+
+    Attributes:
+        __current_view (QWidget): The current view being displayed in the main window.
+
+    Methods:
+        __init__(self) -> None: Инициализирует главное окно и устанавливает пользовательский интерфейс, действия меню и начальный вид.
+        __load_ui(self): Загружает пользовательский интерфейс для главного окна из файла .ui.
+        __setup_menu_actions(self): Подключает действия меню к соответствующим командам.
+        __center(self): Центрирует главное окно на экране.
+        __check_state(self): Изменяет вид, основываясь на текущем состоянии приложения.
+        __check_command(self): Выполняет соответствующее действие на основе текущей команды приложения.
+    """
     __current_view: QWidget
 
     def __init__(self) -> None:
@@ -34,17 +50,26 @@ class MainWindow(QMainWindow):
         self.show()
 
     def __load_ui(self):
+        """
+        Загружает пользовательский интерфейс для главного окна.
+        """
         uic.loadUi(main_window_ui, self)
         self.menuExitAction: QAction
         self.menuAboutProgramAction: QAction
 
     def __setup_menu_actions(self):
+        """
+        Установка действий меню для главного окна программы.
+        """
         self.menuExitAction.triggered.connect(lambda: app_model.set_command("exit"))
         self.menuAboutProgramAction.triggered.connect(
             lambda: app_model.set_command("about_programm")
         )
 
     def __center(self):
+        """
+        Центрирует главное окно на экране   
+        """
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
         self.move(
@@ -52,6 +77,9 @@ class MainWindow(QMainWindow):
         )
 
     def __check_state(self):
+        """
+        Проверка и обновление текущего представления на основе текущего состояния приложения.
+        """
         if app_model.state == "menu":
             self.__current_view = MenuView(self)
             self.statusBar().showMessage("")
@@ -61,6 +89,9 @@ class MainWindow(QMainWindow):
             self.__current_view = ResultsView(self)
 
     def __check_command(self):
+        """
+        Проверка текущей команды в app_model и выполните соответствующего действия.
+        """
         if app_model.command == "exit":
             # self.close()
             ExitCommand(self).execute()

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "type": "python",
+            "name": "Run Tetris",
+            "arguments": ["Tetris.py"],
+        },
+
+    ]
+}
