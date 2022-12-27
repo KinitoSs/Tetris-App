@@ -14,6 +14,7 @@ class Board:
         new_block_y (float): начальная позиция нового блока по оси y.
 
     """
+
     current_block = ...  # type: brick.Brick
     width: int
     height: int
@@ -24,7 +25,7 @@ class Board:
     def __init__(self, lvl):
         """
         Инициализирует доску с указанным уровнем сложности.
-    
+
         Args:
             lvl (int): Уровень сложности, который определяет размер доски.
         """
@@ -48,7 +49,7 @@ class Board:
     def insert_obstacles(self) -> bool:
         """
         Добавляет препятствия на доску в зависимости от уровня сложности.
-        """      
+        """
         self.obstacles = []
         if app_model.complexity == 1:
             pass
@@ -79,7 +80,7 @@ class Board:
 
     def is_current_block_on_obstacle(self, x_offset, y_offset) -> bool:
         """
-        Проверяет, находится ли текущий блок на препятствии. 
+        Проверяет, находится ли текущий блок на препятствии.
 
         Args:
             x_offset (int): Смещение по оси x.
@@ -100,7 +101,7 @@ class Board:
         """
         Пытается вставить случайный блок на доску.
         Если успешно, то устанавливает сгенерированный блок в качестве текущего.
-        
+
         Returns:
             bool: Возвращает True, если блок был успешно вставлен, иначе False.
         """
@@ -137,7 +138,7 @@ class Board:
     def can_rotate_current_block(self, direction):
         """
         Проверяет, может ли текущий блок быть повернут в указанную сторону.
-        
+
         Args:
             direction (int): Направление, в которое нужно повернуть блок (1 - направо, 2 - налево).
 
@@ -159,7 +160,7 @@ class Board:
     def remove_full_rows(self) -> int:
         """
         Удаляет заполненные линии из доски.
-        
+
         Возвращает количество удаленных строк (0, если они any).
         """
         rows_removed = 0
@@ -208,5 +209,3 @@ class Board:
         """
         for i in range(0, self.width):
             self.data[row_index][i] = 0
-
-

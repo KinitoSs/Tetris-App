@@ -31,6 +31,7 @@ class MainWindow(QMainWindow):
         __check_state(self): Изменяет вид, основываясь на текущем состоянии приложения.
         __check_command(self): Выполняет соответствующее действие на основе текущей команды приложения.
     """
+
     __current_view: QWidget
 
     def __init__(self) -> None:
@@ -68,7 +69,7 @@ class MainWindow(QMainWindow):
 
     def __center(self):
         """
-        Центрирует главное окно на экране   
+        Центрирует главное окно на экране
         """
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()

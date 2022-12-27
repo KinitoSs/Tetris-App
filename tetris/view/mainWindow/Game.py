@@ -10,6 +10,7 @@ class Game(QObject):
     QObject, представляющий логику игры.
     Выдает сигналы при обновлении поля, счета, уровня или статуса.
     """
+
     # must be static
     board_updated = pyqtSignal()
     status_updated = pyqtSignal(str)
@@ -78,7 +79,7 @@ class Game(QObject):
     def __number_of_points_to_change_level(self) -> int:
         """
         Расчёт количества очков, необходимого для перехода на следующий уровень.
-        
+
         Returns:
             Количество очков, необходимое для перехода на следующий уровень.
         """
@@ -97,8 +98,8 @@ class Game(QObject):
     def __game_stop(self) -> None:
         """
         Останавливает игру и меняет __game_over на True.
-        
-        Этот метод также останавливает таймер и меняет статус на "Game over!". 
+
+        Этот метод также останавливает таймер и меняет статус на "Game over!".
         Он также сохраняет текущий счет в базе данных и обновляет состояние модели приложения.
         """
         self.__game_over = True
@@ -175,7 +176,7 @@ class Game(QObject):
         if self.__highSpeedMode:
             self.__change_speed(self.__speedBackup)
             self.__highSpeedMode = False
-    
+
     def toggle_pause(self):
         """
         Переключает состояние паузы в игре.
@@ -194,7 +195,7 @@ class Game(QObject):
     def new_game(self):
         """
         Начать новую игру.
-        
+
         Метод обнулит состояние игры, включая счет, уровень и сообщение о состоянии, и вставит новый случайный блок на поле.
         """
         self.stop()
