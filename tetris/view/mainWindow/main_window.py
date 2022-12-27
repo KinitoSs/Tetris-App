@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         self.__current_view = MenuView(self)
         self.setCentralWidget(self.__current_view)
 
-        self.__center()
+        # self.__center()
         self.show()
 
     def __load_ui(self):
@@ -67,15 +67,15 @@ class MainWindow(QMainWindow):
             lambda: app_model.set_command("about_programm")
         )
 
-    def __center(self):
-        """
-        Центрирует главное окно на экране
-        """
-        screen = QDesktopWidget().screenGeometry()
-        size = self.geometry()
-        self.move(
-            (screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2
-        )
+    # def __center(self):
+    #     """
+    #     Центрирует главное окно на экране
+    #     """
+    #     screen = QDesktopWidget().screenGeometry()
+    #     size = self.geometry()
+    #     self.move(
+    #         (screen.width() - size.width()) / 2, (screen.height() - size.height()) / 2
+    #     )
 
     def __check_state(self):
         """
