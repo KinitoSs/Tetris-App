@@ -4,13 +4,13 @@ from typing import Tuple
 class Brick:
     def __init__(self, x: int, y: int):
         """Инициализация блока в заданной позиции на экране"""
-        self._xPos = 0
-        self._yPos = 0
+        self.__xPos = 0
+        self.__yPos = 0
         self.set_pos(x, y)
 
     def set_pos(self, x, y):
-        self._xPos = x
-        self._yPos = y
+        self.__xPos = x
+        self.__yPos = y
 
     def get_pos(self):
         return int(self.x), int(self.y)
@@ -25,10 +25,10 @@ class Brick:
         self.set_pos(self.get_x() + 1, self.get_y())
 
     def get_x(self):
-        return int(self._xPos)
+        return int(self.__xPos)
 
     def get_y(self):
-        return int(self._yPos)
+        return int(self.__yPos)
 
     def rotate_left(self):
         pass

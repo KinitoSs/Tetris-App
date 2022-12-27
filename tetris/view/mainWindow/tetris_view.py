@@ -95,7 +95,7 @@ class TetrisView(QWidget):
 
     def update_status(self):
         self.__status_bar.showMessage(
-            "{} Score: {} Level: {}".format(
+            "{} Score: {}".format(
                 self.__game.get_status(),
                 self.__game.get_score(),
                 self.__game.get_level(),
