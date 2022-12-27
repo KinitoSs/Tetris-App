@@ -208,3 +208,5 @@ class Board:
         """
         for i in range(0, self.width):
             self.data[row_index][i] = 0
+
+
