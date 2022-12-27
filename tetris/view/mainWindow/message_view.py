@@ -5,6 +5,15 @@ from ...UI import message_view_ui
 
 
 class MessageView(QDialog):
+    """
+    Диалоговое окно с ярлыком сообщения и кнопкой подтверждения.
+
+    Attributes:
+        __confirm_button (QPushButton): Кнопка подтверждения.
+        __message_label (QLabel): Ярлык сообщения.
+
+    """
+
     __confirm_button: QPushButton
     __message_label: QLabel
 

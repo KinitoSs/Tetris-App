@@ -10,6 +10,13 @@ from ...viewModel.main_view_model import app_model
 
 
 class TetrisView(QWidget):
+    """
+    Виджет для отображения игры Тетрис.
+    
+    Этот класс является подклассом QWidget и используется для отображения игры Тетрис. 
+    Он включает методы для настройки пользовательского интерфейса, рисования игрового поля, 
+    обновления строки состояния и обработки клавиатурного ввода от пользователя.
+    """
     BrickSize: int = 15
     Margin = 50
 
@@ -33,6 +40,13 @@ class TetrisView(QWidget):
         self.__setup_buttons()
 
     def initialize_ui(self):
+        """
+        Устанавливает пользовательский интерфейс для игры Тетрис.
+        
+        Этот метод создает виджет QGraphicsView и QGraphicsScene, и устанавливает
+        сцену в качестве центрального виджета главного окна. Он также устанавливает размер
+        сцены равным размеру игрового поля и добавляет светло-серый фон сцены.
+        """
         qgv = QGraphicsView(self)
         self.__scene = QGraphicsScene(qgv)
         qgv.setScene(self.__scene)
@@ -61,6 +75,13 @@ class TetrisView(QWidget):
         self.update_status()
 
     def draw_board(self):
+        """
+        Рисует текущее состояние игры Тетрис на сцене QGraphicsScene.
+        
+        Этот метод сначала очищает сцену, а затем добавляет на сцену 
+        прямоугольники, представляющие текущий блок, препятствия 
+        и любые заполненные клетки на игровой доске.
+        """
         self.__scene.clear()
         self.__scene.addRect(self.__scene.sceneRect(), QPen(Qt.lightGray))
         for point in self.__board.current_block.get_coords():
@@ -94,6 +115,12 @@ class TetrisView(QWidget):
                     )
 
     def update_status(self):
+        """
+        Обновление строки состояния главного окна для отображения текущего состояния игры.
+        
+        Этот метод обновляет строку состояния, чтобы показать текущее состояние игры и счёт.
+        """
+
         self.__status_bar.showMessage(
             "{} Score: {}".format(
                 self.__game.get_status(),
@@ -103,6 +130,17 @@ class TetrisView(QWidget):
         )
 
     def keyPressEvent(self, e):
+        """
+        Обработка клавиатурного ввода от пользователя.
+        
+        Этот метод проверяет нажатие определенных клавиш (W, A, S, D и Space) и выполняет
+        действия в игре на основе нажатой клавиши. Например, если нажата клавиша W, 
+        то будет предпринята попытка повернуть текущий блок против часовой стрелки.
+        Если нажата клавиша "Пробел", то текущий блок ускоряется.
+        
+        Args:
+            e: Экземпляр QKeyEvent, содержащий информацию о событии нажатия клавиши.
+        """
         key = e.key()
         if key == Qt.Key_W:
             if self.__board.can_rotate_current_block(-1):
@@ -123,8 +161,17 @@ class TetrisView(QWidget):
             self.__game.start()
 
     def keyReleaseEvent(self, e):
+        """
+        Обработка клавиатурного ввода от пользователя при отпускании клавиши.
+        
+        Args:
+            e: Экземпляр QKeyEvent, содержащий информацию о событии отпускания клавиши.
+        """
         self.__game.unset_high_speed()
 
     def __setup_buttons(self) -> None:
+        """
+        Настройка кнопок в представлении игры Tetris.
+        """
         self.toMenuViewButton.clicked.connect(lambda: app_model.set_state("menu"))
         self.pauseButton.clicked.connect(lambda: self.__game.toggle_pause())

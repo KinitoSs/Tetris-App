@@ -37,13 +37,25 @@ class Game(QObject):
         self.new_game()
 
     def start(self):
+        """
+        Запуск игрового таймера.
+        """
         if not self.__game_over:
             self.__timer.start(self.__speed, self)
 
     def stop(self):
+        """
+        Остановка игрового таймера.
+        """
         self.__timer.stop()
 
     def __change_speed(self, speed):
+        """
+        Изменение скорости игрового таймера.
+
+        Parameters:
+            speed (int): Новая скорость для таймера, в миллисекундах.
+        """
         self.__speed = speed
         if self.__timer.isActive():
             self.start()
@@ -148,17 +160,29 @@ class Game(QObject):
         return self.__level
 
     def set_high_speed(self):
+        """
+        Установка таймера игры на высокоскоростной интервал.
+        """
         if not self.__highSpeedMode:
             self.__highSpeedMode = True
             self.__speedBackup = self.__speed
             self.__change_speed(self.high_speed)
 
     def unset_high_speed(self):
+        """
+        Установка таймераа игры обратно на нормальный интервал скорости.
+        """
         if self.__highSpeedMode:
             self.__change_speed(self.__speedBackup)
             self.__highSpeedMode = False
     
     def toggle_pause(self):
+        """
+        Переключает состояние паузы в игре.
+
+        Если игра в данный момент приостановлена, она будет возобновлена.
+        Если игра запущена, она будет приостановлена.
+        """
         if not self.__game_over:
             if self.__timer.isActive():
                 self.__change_status_message("Paused")
@@ -168,6 +192,11 @@ class Game(QObject):
                 self.__change_status_message("")
 
     def new_game(self):
+        """
+        Начать новую игру.
+        
+        Метод обнулит состояние игры, включая счет, уровень и сообщение о состоянии, и вставит новый случайный блок на поле.
+        """
         self.stop()
         self.__speed = self.base_speed
         self.__speedBackup = self.__speed
